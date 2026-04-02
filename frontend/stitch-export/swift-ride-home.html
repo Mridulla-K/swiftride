@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>SwiftRide - Premium Mobility</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#b3c5ff",
+                        "primary-container": "#0066ff",
+                        "on-primary-container": "#f8f7ff",
+                        "surface": "#10131c",
+                        "on-surface": "#e1e2ee",
+                        "secondary-container": "#284386",
+                        "outline": "#8c90a1",
+                        "outline-variant": "#424656"
+                    },
+                    fontFamily: {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Manrope"]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+        .glass-sheet { background: rgba(29, 31, 40, 0.85); backdrop-filter: blur(24px); }
+        #map { height: 100vh; width: 100%; z-index: 1; }
+    </style>
+    <script src="assets/app.js" defer></script>
+</head>
+<body class="font-body text-on-surface bg-surface min-h-screen">
+    <div id="map"></div>
+
+    <header class="fixed top-0 left-0 w-full p-4" style="z-index: 1200;">
+        <div class="max-w-5xl mx-auto glass-sheet rounded-2xl px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-container">
+                    <img id="user-avatar" src="https://avatar.vercel.sh/guest.png" class="w-full h-full object-cover" alt="User avatar" />
+                </div>
+                <h1 id="user-greeting" class="font-bold text-lg text-primary">Welcome, Rider</h1>
+            </div>
+            <button id="logout-button" type="button" class="px-4 py-2 rounded-lg bg-outline-variant hover:bg-[#4f5468] transition">Logout</button>
+        </div>
+    </header>
+
+    <main class="fixed bottom-0 left-0 w-full p-4 md:p-6" style="z-index: 1200;">
+        <div id="ride-request-card" class="max-w-lg mx-auto glass-sheet rounded-2xl p-6 shadow-2xl">
+            <h2 class="text-2xl font-bold text-primary font-headline mb-4">Where are you going?</h2>
+            <form id="ride-request-form" class="space-y-4">
+                <div class="grid grid-cols-2 gap-2">
+                    <button id="select-pickup-point" type="button" class="px-3 py-2 rounded-lg text-sm font-semibold bg-primary-container text-on-primary-container">Tap map for Pickup</button>
+                    <button id="select-dropoff-point" type="button" class="px-3 py-2 rounded-lg text-sm font-semibold bg-outline-variant text-on-surface">Tap map for Dropoff</button>
+                </div>
+                <p id="map-selection-hint" class="text-xs text-outline">Map click mode: Pickup</p>
+                <div class="relative">
+                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">trip_origin</span>
+                    <input type="text" id="pickup-location" placeholder="Pickup address or map click" required class="w-full pl-12 pr-4 py-3 bg-outline-variant border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary transition" />
+                </div>
+                <div class="relative">
+                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">location_on</span>
+                    <input type="text" id="dropoff-location" placeholder="Dropoff address or map click" required class="w-full pl-12 pr-4 py-3 bg-outline-variant border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary transition" />
+                </div>
+                <div>
+                    <p class="text-sm text-outline mb-2">Choose vehicle</p>
+                    <div id="vehicle-options" class="grid grid-cols-3 gap-2">
+                        <button type="button" data-vehicle="bike" class="vehicle-option px-3 py-2 rounded-lg text-sm font-semibold bg-outline-variant">Bike</button>
+                        <button type="button" data-vehicle="auto" class="vehicle-option px-3 py-2 rounded-lg text-sm font-semibold bg-outline-variant">Auto</button>
+                        <button type="button" data-vehicle="car" class="vehicle-option px-3 py-2 rounded-lg text-sm font-semibold bg-primary-container text-on-primary-container">Car</button>
+                    </div>
+                    <p id="fare-estimate" class="text-xs text-outline mt-2">Choose pickup and dropoff to get fare estimate.</p>
+                </div>
+                <button type="submit" class="w-full py-3 text-lg font-semibold text-on-primary-container bg-primary-container rounded-lg hover:bg-blue-700 transition-transform transform hover:scale-105">Request Ride</button>
+            </form>
+        </div>
+
+        <div id="finding-driver-card" class="hidden max-w-lg mx-auto glass-sheet rounded-2xl p-6 shadow-2xl text-center">
+            <h2 class="text-2xl font-bold text-primary font-headline mb-4">Finding your driver...</h2>
+            <div class="flex justify-center items-center">
+                <div class="animate-spin rounded-full h-16 w-16 border-b-2 border-primary"></div>
+            </div>
+            <p class="text-outline mt-4">Please wait while we match you with a nearby driver.</p>
+            <p id="search-timer" class="text-xs text-outline mt-2">Time elapsed: 0s</p>
+            <button type="button" class="edit-route-button mt-4 w-full px-4 py-2 rounded-lg text-sm font-semibold bg-outline-variant hover:bg-[#4f5468] transition">Edit Pickup &amp; Drop</button>
+            <button type="button" class="cancel-ride-button mt-4 px-4 py-2 rounded-lg text-sm font-semibold bg-outline-variant hover:bg-[#4f5468] transition">Cancel Ride</button>
+        </div>
+
+        <div id="no-driver-card" class="hidden max-w-lg mx-auto glass-sheet rounded-2xl p-6 shadow-2xl">
+            <h2 class="text-2xl font-bold text-primary font-headline mb-2">No driver found yet</h2>
+            <p class="text-outline mb-4">You can improve your chances by adding a tip.</p>
+            <div class="grid grid-cols-3 gap-2 mb-4">
+                <button type="button" class="tip-option px-3 py-2 rounded-lg text-sm font-semibold bg-outline-variant" data-tip="20">+ ₹20</button>
+                <button type="button" class="tip-option px-3 py-2 rounded-lg text-sm font-semibold bg-outline-variant" data-tip="40">+ ₹40</button>
+                <button type="button" class="tip-option px-3 py-2 rounded-lg text-sm font-semibold bg-outline-variant" data-tip="80">+ ₹80</button>
+            </div>
+            <button id="no-tip-option" type="button" class="w-full mb-3 py-2 text-sm font-semibold rounded-lg bg-outline-variant hover:bg-[#4f5468] transition">Continue without tip</button>
+            <button type="button" class="edit-route-button w-full mb-3 py-2 text-sm font-semibold rounded-lg bg-outline-variant hover:bg-[#4f5468] transition">Edit Pickup &amp; Drop</button>
+            <button type="button" class="cancel-ride-button w-full mb-3 py-2 text-sm font-semibold rounded-lg bg-outline-variant hover:bg-[#4f5468] transition">Cancel Ride</button>
+            <button id="retry-find-driver" type="button" class="w-full py-3 text-lg font-semibold text-on-primary-container bg-primary-container rounded-lg hover:bg-blue-700 transition-transform transform hover:scale-105">Retry Finding Driver</button>
+        </div>
+
+        <div id="driver-matched-card" class="hidden max-w-lg mx-auto glass-sheet rounded-2xl p-6 shadow-2xl">
+            <h2 class="text-2xl font-bold text-primary font-headline mb-4">Driver Matched!</h2>
+            <div class="flex items-center gap-4">
+                <img id="driver-avatar" src="https://avatar.vercel.sh/driver.png" class="w-16 h-16 rounded-full border-2 border-primary" alt="Driver avatar" />
+                <div>
+                    <h3 id="driver-name" class="text-xl font-bold"></h3>
+                    <p id="driver-vehicle" class="text-outline"></p>
+                    <p id="driver-rating" class="text-sm text-outline"></p>
+                    <p id="driver-fare" class="text-sm text-outline"></p>
+                    <p id="driver-distance" class="text-sm text-outline"></p>
+                    <p id="driver-eta" class="text-sm text-outline"></p>
+                </div>
+            </div>
+            <p id="driver-status-message" class="text-lg mt-4">Your driver is on the way.</p>
+            <button type="button" class="cancel-ride-button mt-4 w-full py-2 text-sm font-semibold rounded-lg bg-outline-variant hover:bg-[#4f5468] transition">Cancel Ride</button>
+        </div>
+    </main>
+</body>
+</html>

@@ -1,0 +1,220 @@
+services:
+  # ── Data Stores ────────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    container_name: swiftride-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-swiftride}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-swiftride_secret}
+      POSTGRES_DB: ${POSTGRES_DB:-swiftride}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-swiftride}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - swiftride-net
+
+  redis:
+    image: redis:7-alpine
+    container_name: swiftride-redis
+    restart: unless-stopped
+    command: ["redis-server", "--maxmemory", "512mb", "--maxmemory-policy", "allkeys-lru"]
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data
+    networks:
+      - swiftride-net
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # ── Kafka Ecosystem ───────────────────────────
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.6.0
+    container_name: swiftride-zookeeper
+    restart: unless-stopped
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
+    volumes:
+      - zkdata:/var/lib/zookeeper/data
+      - zklog:/var/lib/zookeeper/log
+    networks:
+      - swiftride-net
+
+  kafka:
+    image: confluentinc/cp-kafka:7.6.0
+    container_name: swiftride-kafka
+    restart: unless-stopped
+    depends_on:
+      zookeeper:
+        condition: service_started
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
+    ports:
+      - "29092:29092"
+    volumes:
+      - kafkadata:/var/lib/kafka/data
+    networks:
+      - swiftride-net
+    healthcheck:
+      test: ["CMD", "kafka-broker-api-versions", "--bootstrap-server", "localhost:9092"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+  kafka-init:
+    image: confluentinc/cp-kafka:7.6.0
+    container_name: swiftride-kafka-init
+    depends_on:
+      kafka:
+        condition: service_healthy
+    volumes:
+      - ./kafka:/kafka-config
+    networks:
+      - swiftride-net
+    entrypoint: ["/bin/bash", "/kafka-config/create-topics.sh"]
+
+  # ── Microservices ──────────────────────────────
+  user-service:
+    build:
+      context: ..
+      dockerfile: services/user-service/Dockerfile
+    container_name: swiftride-user-service
+    restart: unless-stopped
+    env_file:
+      - ../.env
+    ports:
+      - "8001:8001"
+    networks:
+      - swiftride-net
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  driver-service:
+    build:
+      context: ..
+      dockerfile: services/driver-service/Dockerfile
+    container_name: swiftride-driver-service
+    restart: unless-stopped
+    env_file:
+      - ../.env
+    ports:
+      - "8002:8002"
+    networks:
+      - swiftride-net
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8002/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  matching-service:
+    build:
+      context: ..
+      dockerfile: services/matching-service/Dockerfile
+    container_name: swiftride-matching-service
+    restart: unless-stopped
+    env_file:
+      - ../.env
+    ports:
+      - "8003:8003"
+    networks:
+      - swiftride-net
+    depends_on:
+      redis:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8003/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  ride-service:
+    build:
+      context: ..
+      dockerfile: services/ride-service/Dockerfile
+    container_name: swiftride-ride-service
+    restart: unless-stopped
+    env_file:
+      - ../.env
+    ports:
+      - "8004:8004"
+    networks:
+      - swiftride-net
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8004/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  pricing-service:
+    build:
+      context: ..
+      dockerfile: services/pricing-service/Dockerfile
+    container_name: swiftride-pricing-service
+    restart: unless-stopped
+    env_file:
+      - ../.env
+    ports:
+      - "8005:8005"
+    networks:
+      - swiftride-net
+    depends_on:
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8005/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+networks:
+  swiftride-net:
+    driver: bridge
+
+volumes:
+  pgdata:
+  redisdata:
+  zkdata:
+  zklog:
+  kafkadata:

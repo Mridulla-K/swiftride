@@ -1,0 +1,81 @@
+{
+  "topics": [
+    {
+      "name": "ride.requested",
+      "partitions": 3,
+      "replication_factor": 1,
+      "description": "Published when a rider requests a new ride. Consumed by matching-service to find nearby drivers.",
+      "schema": {
+        "ride_id": "string (UUID)",
+        "rider_id": "string (UUID)",
+        "pickup_lat": "float",
+        "pickup_lng": "float",
+        "dropoff_lat": "float",
+        "dropoff_lng": "float",
+        "requested_at": "string (ISO-8601)"
+      },
+      "retention_ms": 604800000
+    },
+    {
+      "name": "driver.location",
+      "partitions": 3,
+      "replication_factor": 1,
+      "description": "Published by driver-service when a driver sends a GPS heartbeat. Consumed by matching-service for proximity queries.",
+      "schema": {
+        "driver_id": "string (UUID)",
+        "lat": "float",
+        "lng": "float",
+        "status": "string (available | busy | offline)",
+        "timestamp": "string (ISO-8601)"
+      },
+      "retention_ms": 86400000
+    },
+    {
+      "name": "ride.matched",
+      "partitions": 3,
+      "replication_factor": 1,
+      "description": "Published by matching-service when a driver is matched to a ride request. Consumed by ride-service and driver-service.",
+      "schema": {
+        "ride_id": "string (UUID)",
+        "driver_id": "string (UUID)",
+        "rider_id": "string (UUID)",
+        "estimated_pickup_seconds": "int",
+        "matched_at": "string (ISO-8601)"
+      },
+      "retention_ms": 604800000
+    },
+    {
+      "name": "ride.unmatched",
+      "partitions": 3,
+      "replication_factor": 1,
+      "description": "Published when no driver is found after all retries.",
+      "schema": {
+        "ride_id": "string (UUID)",
+        "reason": "string"
+      },
+      "retention_ms": 604800000
+    },
+    {
+      "name": "ride.failed",
+      "partitions": 3,
+      "replication_factor": 1,
+      "description": "Published when a ride fails due to system error.",
+      "schema": {
+        "ride_id": "string (UUID)",
+        "error": "string"
+      },
+      "retention_ms": 604800000
+    },
+    {
+      "name": "driver.disconnected",
+      "partitions": 3,
+      "replication_factor": 1,
+      "description": "Published when a driver disconnects and fails to reconnect within 30s.",
+      "schema": {
+        "driver_id": "string (UUID)",
+        "timestamp": "string (ISO-8601)"
+      },
+      "retention_ms": 604800000
+    }
+  ]
+}

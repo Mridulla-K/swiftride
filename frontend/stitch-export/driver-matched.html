@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SwiftRide - Driver Matched</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-surface-variant": "#c2c6d8",
+              "inverse-on-surface": "#2e303a",
+              "primary": "#b3c5ff",
+              "tertiary-container": "#ad5d00",
+              "surface-tint": "#b3c5ff",
+              "on-error-container": "#ffdad6",
+              "error-container": "#93000a",
+              "on-tertiary": "#4d2600",
+              "surface-container-lowest": "#0b0e16",
+              "surface-container-high": "#272a33",
+              "secondary": "#b3c5ff",
+              "on-primary-container": "#f8f7ff",
+              "on-primary-fixed": "#001849",
+              "on-primary": "#002b75",
+              "on-primary-fixed-variant": "#003fa4",
+              "error": "#ffb4ab",
+              "tertiary-fixed": "#ffdcc3",
+              "surface": "#10131c",
+              "on-tertiary-fixed": "#2f1500",
+              "surface-variant": "#32343e",
+              "primary-fixed-dim": "#b3c5ff",
+              "on-secondary-container": "#9ab3fd",
+              "on-secondary-fixed": "#001849",
+              "on-error": "#690005",
+              "background": "#10131c",
+              "surface-container-highest": "#32343e",
+              "secondary-container": "#284386",
+              "outline": "#8c90a1",
+              "on-secondary-fixed-variant": "#284386",
+              "surface-bright": "#363943",
+              "secondary-fixed": "#dae1ff",
+              "on-tertiary-fixed-variant": "#6e3900",
+              "outline-variant": "#424656",
+              "tertiary": "#ffb77d",
+              "surface-dim": "#10131c",
+              "primary-container": "#0066ff",
+              "primary-fixed": "#dae1ff",
+              "tertiary-fixed-dim": "#ffb77d",
+              "on-tertiary-container": "#fff6f2",
+              "surface-container": "#1d1f28",
+              "on-secondary": "#0a2c6e",
+              "inverse-surface": "#e1e2ee",
+              "secondary-fixed-dim": "#b3c5ff",
+              "on-background": "#e1e2ee",
+              "surface-container-low": "#191b24",
+              "on-surface": "#e1e2ee",
+              "inverse-primary": "#0054d6"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .map-gradient-overlay {
+            background: linear-gradient(to bottom, #10131c 0%, transparent 15%, transparent 85%, #10131c 100%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body antialiased selection:bg-primary/30">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#10131c]/80 backdrop-blur-xl flex justify-between items-center px-6 py-4 w-full">
+<div class="flex items-center gap-4">
+<button class="text-[#b3c5ff] hover:bg-[#32343e] transition-colors p-2 rounded-full active:scale-95 duration-200">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<h1 class="font-plus-jakarta-sans font-bold tracking-tight text-xl font-extrabold text-[#b3c5ff] tracking-widest uppercase">SwiftRide</h1>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full border-2 border-primary/20 overflow-hidden hover:bg-[#32343e] transition-colors active:scale-95 duration-200 cursor-pointer">
+<img alt="User profile photo" class="w-full h-full object-cover" data-alt="Professional headshot of a person with friendly expression, warm studio lighting, clean background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDEwBRF3YD1sPYEqWXowqI7bc1SDDaJzl_kykwqcgNpEBxwpz36cy7uJj2PeIgCzcHbBDSbBuKruqjE0BsLteIZ7RA7yGq1ehUZ7bzD_wUNkZSa2jvsnEwUwxeUVlgMhWUS24I35JJPbqMhDtvd9QG3lYUDCGggDSfkBxSZcTIeHCjuSpMUYlqLds1xkDHpgAoSkNIRL-AEhYbgl2SOBfQFKD-qEd04PP72R1fjWUGO7Vi0g1J_l1OzQfvMSzZ7xOO31WG111XYyOg"/>
+</div>
+</div>
+</header>
+<main class="relative h-screen w-full overflow-hidden flex flex-col pt-20">
+<!-- Full Background Map HUD -->
+<div class="absolute inset-0 z-0">
+<div class="w-full h-full bg-surface-container-lowest grayscale contrast-125 brightness-50 opacity-80" data-location="San Francisco" style="">
+<img alt="Dark themed navigation map" class="w-full h-full object-cover" data-alt="Dark stylized urban map with glowing blue arterial roads and glowing pinpoints in a futuristic midnight aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD52s46wluYdisFCCEnP0ePoJ-MrXmmaSy_Dc3fKVHtpPWJIfmL9WUSonOb-k8AEk04w_A-K6S5rS8AYR8IVdPnzVIHENOI_cpy9d1LCySURNHmSaQ9C0CHRYpuLAFlWklxVBoSWeGM7rdbi4fdywQpL81thN7t7I20WDQugtyzwsnadxWnz6SK3AKIYsfwGqRsGwS1SFJrd7kFsTHjplkNXRrgA3piqXfdKVA2UFr6ur-2jX6riSYKwG0kMHyWLQ5hx7HmQgaQjZs"/>
+</div>
+<div class="absolute inset-0 map-gradient-overlay pointer-events-none"></div>
+<!-- Dynamic Driver Path Marker -->
+<div class="absolute top-1/2 left-1/3 transform -translate-x-1/2 -translate-y-1/2 z-10 flex flex-col items-center">
+<div class="bg-primary p-2 rounded-full shadow-[0_0_20px_rgba(179,197,255,0.6)]">
+<span class="material-symbols-outlined text-on-primary text-2xl" data-icon="local_taxi">local_taxi</span>
+</div>
+<div class="mt-2 px-3 py-1 bg-surface-container-highest rounded-full text-xs font-bold text-primary tracking-wider shadow-lg">
+                    MICHAEL
+                </div>
+</div>
+<!-- Destination Pin -->
+<div class="absolute top-1/3 right-1/4 transform -translate-x-1/2 -translate-y-1/2 z-10">
+<div class="bg-error p-1 rounded-full shadow-[0_0_15px_rgba(255,180,171,0.5)]">
+<div class="w-3 h-3 bg-white rounded-full"></div>
+</div>
+</div>
+</div>
+<!-- Floating Content Layer -->
+<div class="relative z-20 flex-1 flex flex-col justify-between px-6 pb-28">
+<!-- Status Header Section -->
+<section class="mt-4">
+<div class="bg-[#1d1f28]/80 backdrop-blur-xl p-6 rounded-3xl border border-outline-variant/15 shadow-2xl max-w-sm">
+<h2 class="font-headline text-2xl font-extrabold text-on-surface leading-tight mb-2">Your driver is on the way</h2>
+<div class="flex items-center gap-2">
+<div class="flex items-center gap-1.5 px-3 py-1 bg-tertiary-container/20 rounded-full">
+<span class="w-2 h-2 bg-tertiary rounded-full animate-pulse"></span>
+<span class="font-label text-sm font-bold text-tertiary">Arriving in 3 mins</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Driver Detail Drawer - Glassmorphism -->
+<section class="mb-4">
+<div class="bg-surface-container/80 backdrop-blur-2xl rounded-[2rem] p-6 shadow-[0_-8px_32px_rgba(0,0,0,0.4)] border border-outline-variant/15 max-w-lg mx-auto w-full">
+<div class="flex justify-between items-start mb-6">
+<div class="flex gap-4">
+<div class="w-16 h-16 rounded-2xl overflow-hidden shadow-lg border border-primary/20">
+<img alt="Michael" class="w-full h-full object-cover" data-alt="Friendly male ride-share driver portrait, warm natural lighting, smiling confident expression" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDt1ZCOtG_8gwR-b-XlimsxODK6rKMkTXgIfb3TL0O1ElhP_oMaVn4VJje-55XsE0Hiwf5enFVvYL_K5c4lHlTCxNQC7NIj_yswulzCvtfrRztj5YVJbmzDa2dvj0jRyi0AcVVDwyqfZlVDo7kNEnCd0EcnbOPVtPcvh2Jn1e99cngPCTMaraiOPnsR1Md-_MnECUBJ8xjQr24vlfeqAx_fo2ZQtrDy9_Gr6kPF4ESuX8AU3M8XPjDoNEfStr2hZDB2__2TEbXtStQ"/>
+</div>
+<div>
+<h3 class="font-headline text-xl font-bold text-on-surface">Michael</h3>
+<div class="flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-tertiary text-sm" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label text-sm font-bold text-on-surface-variant">4.9 ★</span>
+<span class="mx-1 text-outline-variant">•</span>
+<span class="font-label text-sm text-on-surface-variant">Gold Member</span>
+</div>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="w-12 h-12 flex items-center justify-center bg-surface-container-high rounded-full text-primary hover:bg-surface-container-highest active:scale-90 transition-all">
+<span class="material-symbols-outlined" data-icon="chat">chat</span>
+</button>
+<button class="w-12 h-12 flex items-center justify-center bg-surface-container-high rounded-full text-primary hover:bg-surface-container-highest active:scale-90 transition-all">
+<span class="material-symbols-outlined" data-icon="call">call</span>
+</button>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-2xl p-4 mb-6 flex justify-between items-center">
+<div>
+<p class="font-label text-xs text-outline tracking-widest uppercase mb-1">Vehicle</p>
+<p class="font-headline text-lg font-bold text-on-surface">Tesla Model 3</p>
+</div>
+<div class="text-right">
+<div class="bg-surface-container-highest px-3 py-1 rounded-lg border border-outline-variant/30">
+<p class="font-headline font-extrabold text-on-surface tracking-widest">ABC-1234</p>
+</div>
+</div>
+</div>
+<button class="w-full py-4 bg-gradient-to-br from-[#b3c5ff] to-[#0066ff] rounded-full text-on-primary-container font-headline font-extrabold text-lg shadow-[0_8px_24px_rgba(0,102,255,0.3)] active:scale-95 transition-transform">
+                        Track Driver
+                    </button>
+<div class="mt-4 flex justify-center">
+<button class="font-label text-sm font-semibold text-outline hover:text-error transition-colors px-4 py-1">
+                            Cancel Trip
+                        </button>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 bg-[#10131c]/90 backdrop-blur-2xl rounded-t-[24px] shadow-[0_-8px_32px_rgba(0,0,0,0.4)] flex justify-around items-center px-4 pb-6 pt-3">
+<a class="flex flex-col items-center justify-center text-[#b3c5ff] bg-gradient-to-br from-[#b3c5ff]/20 to-[#0066ff]/20 rounded-full px-4 py-1 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="local_taxi" style="font-variation-settings: 'FILL' 1;">local_taxi</span>
+<span class="font-manrope text-[10px] font-semibold tracking-wide mt-0.5">Ride</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 hover:text-[#b3c5ff] active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="font-manrope text-[10px] font-semibold tracking-wide mt-0.5">Activity</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 hover:text-[#b3c5ff] active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="account_balance_wallet">account_balance_wallet</span>
+<span class="font-manrope text-[10px] font-semibold tracking-wide mt-0.5">Wallet</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 hover:text-[#b3c5ff] active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-manrope text-[10px] font-semibold tracking-wide mt-0.5">Account</span>
+</a>
+</nav>
+</body></html>

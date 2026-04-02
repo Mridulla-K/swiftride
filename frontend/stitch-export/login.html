@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>SwiftRide - Welcome</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#b3c5ff",
+                        "primary-container": "#0066ff",
+                        "on-primary-container": "#f8f7ff",
+                        "surface": "#10131c",
+                        "on-surface": "#e1e2ee",
+                        "secondary-container": "#284386",
+                        "outline": "#8c90a1",
+                        "outline-variant": "#424656",
+                    },
+                    fontFamily: {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Manrope"]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .form-container { transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out; }
+        .form-hidden { opacity: 0; transform: scale(0.95); pointer-events: none; position: absolute; }
+        .form-visible { opacity: 1; transform: scale(1); }
+    </style>
+    <script src="assets/app.js" defer></script>
+</head>
+<body class="font-body text-on-surface bg-surface h-screen flex items-center justify-center p-4">
+
+    <div class="w-full max-w-sm mx-auto bg-[#1a1c2c] rounded-2xl shadow-2xl p-8">
+        <div class="relative h-48"> <!-- Adjusted height -->
+            <!-- Login Form -->
+            <div id="login-view" class="form-container form-visible absolute w-full">
+                <h2 class="text-3xl font-bold text-center text-primary font-headline mb-2">Welcome Back</h2>
+                <p class="text-center text-outline mb-6">Sign in to continue your journey.</p>
+                <div id="login-error" class="hidden px-4 py-3 mb-4 text-sm text-red-200 bg-red-900/50 rounded-lg transition"></div>
+                <form id="login-form" class="space-y-4">
+                    <div>
+                        <label for="login-email" class="sr-only">Email</label>
+                        <input type="email" id="login-email" placeholder="Email Address" required class="w-full px-4 py-3 bg-outline-variant border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition">
+                    </div>
+                    <div>
+                        <label for="login-password" class="sr-only">Password</label>
+                        <input type="password" id="login-password" placeholder="Password" required class="w-full px-4 py-3 bg-outline-variant border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition">
+                    </div>
+                    <button type="submit" class="w-full py-3 text-lg font-semibold text-on-primary-container bg-primary-container rounded-lg hover:bg-blue-700 transition-transform transform hover:scale-105">Login</button>
+                </form>
+                <p class="text-center text-sm text-outline mt-6">
+                    Don't have an account? <a href="#" id="show-register" class="font-semibold text-primary hover:underline">Sign Up</a>
+                </p>
+            </div>
+
+            <!-- Registration Form -->
+            <div id="register-view" class="form-container form-hidden absolute w-full">
+                <h2 class="text-3xl font-bold text-center text-primary font-headline mb-2">Create Account</h2>
+                <p class="text-center text-outline mb-6">Join SwiftRide and get moving.</p>
+                <div id="register-error" class="hidden px-4 py-3 mb-4 text-sm text-red-200 bg-red-900/50 rounded-lg transition"></div>
+                <form id="register-form" class="space-y-4">
+                    <input type="text" id="register-fullname" placeholder="Full Name" required class="w-full px-4 py-3 bg-outline-variant border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition">
+                    <input type="email" id="register-email" placeholder="Email Address" required class="w-full px-4 py-3 bg-outline-variant border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition">
+                    <input type="password" id="register-password" placeholder="Password" required class="w-full px-4 py-3 bg-outline-variant border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition">
+                    <input type="tel" id="register-phone" placeholder="Phone Number" required minlength="10" pattern="[0-9]{10,20}" title="Phone number must be 10 to 20 digits" class="w-full px-4 py-3 bg-outline-variant border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition">
+                    <button type="submit" class="w-full py-3 text-lg font-semibold text-on-primary-container bg-secondary-container rounded-lg hover:bg-blue-800 transition-transform transform hover:scale-105">Register</button>
+                </form>
+                <p class="text-center text-sm text-outline mt-6">
+                    Already have an account? <a href="#" id="show-login" class="font-semibold text-primary hover:underline">Log In</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

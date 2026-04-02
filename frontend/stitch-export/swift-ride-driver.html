@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+  </style>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary-fixed-dim": "#2be800",
+            "on-secondary": "#005f28",
+            "outline": "#767575",
+            "inverse-surface": "#fcf9f8",
+            "on-secondary-container": "#e4ffe2",
+            "tertiary-dim": "#00deea",
+            "on-error": "#450900",
+            "surface-container-lowest": "#000000",
+            "on-secondary-fixed-variant": "#006a2e",
+            "on-error-container": "#ffd2c8",
+            "background": "#0e0e0e",
+            "surface-tint": "#8eff71",
+            "surface-container-high": "#20201f",
+            "primary-fixed": "#2ff801",
+            "outline-variant": "#484847",
+            "primary": "#8eff71",
+            "on-background": "#ffffff",
+            "error-dim": "#d53d18",
+            "secondary-fixed": "#90f9a3",
+            "surface-container": "#1a1a1a",
+            "on-tertiary": "#005d62",
+            "error-container": "#b92902",
+            "on-surface-variant": "#adaaaa",
+            "secondary-dim": "#82ea96",
+            "surface-bright": "#2c2c2c",
+            "on-surface": "#ffffff",
+            "primary-dim": "#2be800",
+            "surface-variant": "#262626",
+            "on-primary-container": "#0b5800",
+            "secondary-container": "#006d2f",
+            "error": "#ff7351",
+            "secondary-fixed-dim": "#82ea96",
+            "on-primary-fixed": "#064200",
+            "on-primary-fixed-variant": "#0d6200",
+            "on-tertiary-fixed": "#003f43",
+            "on-tertiary-container": "#005458",
+            "surface-container-low": "#131313",
+            "secondary": "#90f9a3",
+            "tertiary": "#88f6ff",
+            "on-tertiary-fixed-variant": "#005e63",
+            "tertiary-fixed-dim": "#00deea",
+            "on-primary": "#0d6100",
+            "inverse-on-surface": "#565555",
+            "tertiary-container": "#17eefa",
+            "surface": "#0e0e0e",
+            "tertiary-fixed": "#17eefa",
+            "on-secondary-fixed": "#004a1e",
+            "inverse-primary": "#106f00",
+            "surface-container-highest": "#262626",
+            "surface-dim": "#0e0e0e",
+            "primary-container": "#2ff801"
+          },
+          fontFamily: {
+            "headline": ["Plus Jakarta Sans"],
+            "body": ["Plus Jakarta Sans"],
+            "label": ["Plus Jakarta Sans"]
+          },
+          borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background overflow-hidden h-screen w-screen flex flex-col items-center justify-center">
+<!-- Map Layer (Base) -->
+<div class="fixed inset-0 z-0">
+<div class="absolute inset-0 bg-black/60 z-10 pointer-events-none"></div>
+<img class="w-full h-full object-cover" data-alt="A dark night-time satellite view of an urban city grid with glowing street lights and dark navy industrial zones" data-location="San Francisco" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1h_eJ47sHSv02vw2KKPtONXG8ZpQ7_CsLyWMnviRRzzf8pBq5BpM9wdKrL2H2P32dYiNk7keFclkIKeTkTDV9RVf-bN7YC7S3lruGFASKh3b-nU2ElqDFnGOHOuP7lLinegmFx-ZAQf2cYZQeEv8sXfh-hpgH3KBaehehSlSmNpZ_FR-LIGBiv8QIt6ZJF_f3HLyeyQLULlabTjkwtXvZSSZksBb-9le7l7FudVeGmy97F19muuXnpGd1YYOO1W9Nz0sO2JfaRUI"/>
+<!-- Synthetic Route & Vehicle Layer -->
+<div class="absolute inset-0 z-20 flex items-center justify-center">
+<div class="relative w-full h-full">
+<!-- SVG Route Line Mock -->
+<svg class="absolute inset-0 w-full h-full opacity-80" viewbox="0 0 400 800">
+<path d="M 200 600 L 200 450 L 320 450 L 320 200" fill="transparent" stroke="#8eff71" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"></path>
+<circle cx="320" cy="200" fill="#8eff71" r="8"></circle>
+</svg>
+<!-- Car Icon -->
+<div class="absolute top-[60%] left-1/2 -translate-x-1/2 -translate-y-1/2 rotate-0">
+<span class="material-symbols-outlined text-primary text-4xl" style="font-variation-settings: 'FILL' 1;">navigation</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Top Navigation Shell (Shared Component: TopAppBar) -->
+<nav class="fixed top-4 left-1/2 -translate-x-1/2 w-[92%] rounded-2xl z-50 bg-black/80 backdrop-blur-xl shadow-[0px_24px_48px_rgba(0,0,0,0.5)] flex justify-between items-center px-6 h-16">
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-2 bg-on-primary-container/20 px-3 py-1.5 rounded-full border border-primary/20">
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">sensors</span>
+<span class="text-primary text-[10px] font-bold uppercase tracking-widest">ONLINE</span>
+</div>
+</div>
+<div class="flex flex-col items-center">
+<span class="text-[#8eff71] text-2xl font-extrabold tracking-tight">$42.50</span>
+<span class="text-on-surface-variant text-[10px] uppercase font-semibold">Today's Earnings</span>
+</div>
+<div class="flex items-center">
+<div class="w-10 h-10 rounded-full border-2 border-primary overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Close-up portrait of a professional driver with a friendly expression in a modern vehicle" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZ60dHxuRHnxlpfsVsjb5GvxgYjRVfv4f8TamzR4aUZeNLMAMCAjT1EG9VGH0zccQFJHr1HTmolFR2Zd5f5YGhln4PLKgFaEOnE606jIulIvmAiIVxp5b6Ysi_xloecwogm1URTsodIDx9rH0Xtd96IhRyYRvq6DB2mtKOqvF7djjWdEeIIHfnS4KSmgWgFLQMfZzhcTjD6DqHUVjEOAN-q3Chs9jPzMeaXSIh-AESghtv02mdT1ZHtr63iGmQkMWJHXxcp5vaAUc"/>
+</div>
+</div>
+</nav>
+<!-- Main Canvas: Incoming Ride Request -->
+<main class="relative z-30 mt-auto mb-24 w-full px-4 flex flex-col gap-4">
+<!-- Incoming Request Card -->
+<div class="w-full bg-surface-container rounded-[28px] p-6 shadow-[0px_32px_64px_rgba(0,0,0,0.8)] border border-outline-variant/10">
+<!-- Card Header: Fare & Distance -->
+<div class="flex justify-between items-start mb-6">
+<div>
+<h2 class="text-4xl font-extrabold text-on-surface tracking-tighter">$12.50</h2>
+<p class="text-on-surface-variant text-sm font-medium mt-1">Est. Fare for this trip</p>
+</div>
+<div class="bg-surface-container-highest px-4 py-2 rounded-xl flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-lg">near_me</span>
+<span class="font-bold text-on-surface">0.4 km</span>
+</div>
+</div>
+<!-- Rider Info Section -->
+<div class="flex items-center gap-4 mb-8 bg-surface-container-low p-4 rounded-2xl">
+<div class="w-14 h-14 bg-surface-bright rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant text-3xl">account_circle</span>
+</div>
+<div class="flex-1">
+<h3 class="text-xl font-bold text-on-surface">John Doe</h3>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-xs" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-on-surface-variant text-sm font-medium">4.9 • 2,400+ trips</span>
+</div>
+</div>
+<div class="text-right">
+<span class="text-on-surface-variant text-xs uppercase block font-bold">Pickup</span>
+<span class="text-on-surface text-sm font-semibold">2 min away</span>
+</div>
+</div>
+<!-- Countdown Timer Bar -->
+<div class="w-full h-1.5 bg-surface-container-highest rounded-full overflow-hidden mb-8">
+<div class="h-full bg-primary-dim w-3/4 rounded-full"></div>
+</div>
+<!-- Action Buttons -->
+<div class="flex gap-4">
+<button class="flex-1 h-16 rounded-2xl bg-surface-container-highest text-error font-bold text-lg hover:bg-error-container/20 transition-colors">
+          DECLINE
+        </button>
+<button class="flex-[2] h-16 rounded-2xl bg-primary text-on-primary font-black text-xl tracking-wide shadow-[0px_8px_20px_rgba(142,255,113,0.3)] hover:scale-[0.98] transition-transform">
+          ACCEPT
+        </button>
+</div>
+</div>
+</main>
+<!-- Navigation Info Strip (Bottom) -->
+<section class="fixed bottom-20 w-[94%] left-1/2 -translate-x-1/2 z-40">
+<div class="bg-[#111] backdrop-blur-md rounded-2xl p-4 flex items-center justify-between border border-white/5">
+<div class="flex items-baseline gap-1">
+<span class="text-primary text-3xl font-black italic tracking-tighter">45</span>
+<span class="text-on-surface-variant text-xs font-bold">KM/H</span>
+</div>
+<div class="h-8 w-[1px] bg-outline-variant/30 mx-2"></div>
+<div class="flex-1 flex items-center gap-3 pl-2">
+<div class="bg-primary/10 p-2 rounded-lg">
+<span class="material-symbols-outlined text-primary">turn_left</span>
+</div>
+<div>
+<p class="text-on-surface-variant text-[10px] font-bold uppercase tracking-wide">Next Action</p>
+<p class="text-on-surface font-bold">Turn Left <span class="text-primary-dim">in 200m</span></p>
+</div>
+</div>
+</div>
+</section>
+<!-- Bottom Navigation Shell (Shared Component) -->
+<footer class="fixed bottom-0 w-full z-50 flex justify-around items-center h-20 px-8 bg-[#0e0e0e] rounded-t-[24px]">
+<div class="flex flex-col items-center justify-center bg-[#262626] text-[#8eff71] rounded-xl p-3">
+<span class="material-symbols-outlined" data-icon="explore" style="font-variation-settings: 'FILL' 1;">explore</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#adaaaa] p-3 hover:text-[#8eff71] transition-colors">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#adaaaa] p-3 hover:text-[#8eff71] transition-colors">
+<span class="material-symbols-outlined" data-icon="assessment">assessment</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#adaaaa] p-3 hover:text-[#8eff71] transition-colors">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</div>
+</footer>
+</body></html>

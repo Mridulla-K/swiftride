@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SwiftRide Ops Center</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#57f1db",
+                        "on-primary": "#003731",
+                        "surface": "#0e131e",
+                        "on-surface": "#dee2f2",
+                        "error": "#ffb4ab",
+                        "outline": "#859490",
+                    },
+                    fontFamily: {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface font-body">
+<aside class="fixed left-0 top-0 h-full flex flex-col bg-slate-900 w-64 z-50">
+<div class="p-6">
+<div class="flex items-center gap-3 mb-8">
+<div class="w-8 h-8 bg-primary flex items-center justify-center rounded-sm">
+<span class="material-symbols-outlined text-on-primary">speed</span>
+</div>
+<div>
+<h1 class="text-teal-400 font-bold tracking-widest uppercase font-['Space_Grotesk'] leading-none">SwiftRide</h1>
+<p class="text-[10px] text-slate-500 font-['Space_Grotesk'] tracking-tight">Ops Center v4.2</p>
+</div>
+</div>
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-teal-400 border-l-2 border-teal-400 bg-slate-800/50 uppercase text-xs" href="#">
+<span class="material-symbols-outlined text-lg">car_rental</span><span>Rides</span>
+</a>
+</nav>
+</div>
+</aside>
+
+<header class="fixed top-0 right-0 left-64 h-14 bg-slate-950 flex items-center justify-between px-6 z-40">
+<div class="flex items-center gap-8">
+<div class="text-teal-400 font-black tracking-tighter font-['Space_Grotesk'] text-sm">SwiftRide Ops</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<span class="text-slate-400 text-sm">Active Drivers:</span>
+<span id="active-drivers-count" class="text-teal-400 font-bold text-sm">...</span>
+</div>
+<div class="h-4 w-px bg-slate-800"></div>
+<div class="flex items-center gap-2">
+<span class="text-slate-400 text-sm">Rides Today:</span>
+<span id="rides-today-count" class="text-teal-400 font-bold text-sm">...</span>
+</div>
+</div>
+</div>
+</header>
+
+<main class="ml-64 pt-14 h-screen flex overflow-hidden">
+<section class="w-[70%] h-full relative bg-slate-950">
+<div class="absolute inset-0 opacity-20 pointer-events-none" style="background-image: radial-gradient(#334155 1px, transparent 1px); background-size: 20px 20px;"></div>
+<div id="driver-pins-container" class="absolute inset-0 pointer-events-none"></div>
+<div class="absolute bottom-6 left-6 bg-slate-900/80 backdrop-blur-md p-3 border border-slate-700">
+<h4 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">System Status</h4>
+<div class="space-y-2">
+<div class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-primary"></span><span class="text-[11px]">Available (<span id="legend-available">0</span>)</span></div>
+<div class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-error"></span><span class="text-[11px]">In-Ride (<span id="legend-busy">0</span>)</span></div>
+</div>
+</div>
+</section>
+
+<section class="w-[30%] h-full bg-slate-900 flex flex-col border-l border-white/5">
+<div class="p-4 border-b border-white/5 flex items-center justify-between">
+<h2 class="text-xs font-bold uppercase tracking-widest">Active Rides Feed</h2>
+<span class="text-[10px] text-primary animate-pulse">LIVE</span>
+</div>
+<div id="rides-feed-container" class="flex-1 overflow-y-auto">
+    <!-- WebSocket data -->
+</div>
+</section>
+</main>
+
+<script>
+    const API_DRIVERS = "http://localhost:8002/api/v1/drivers/";
+    const WS_RIDES_ALL = "ws://localhost:8004/ws/rides/all";
+    const LAT_RANGE = [12.88, 13.06];
+    const LNG_RANGE = [80.13, 80.31];
+
+    function mapToPercent(val, range) {
+        return ((val - range[0]) / (range[1] - range[0])) * 100;
+    }
+
+    async function updateStats() {
+        try {
+            const r = await fetch(API_DRIVERS);
+            const drivers = await r.json();
+            document.getElementById('active-drivers-count').innerText = drivers.length;
+            document.getElementById('rides-today-count').innerText = Math.floor(drivers.length * 7.5);
+            
+            let avail = 0, busy = 0;
+            const container = document.getElementById('driver-pins-container');
+            container.innerHTML = '';
+            
+            drivers.forEach(d => {
+                if (d.status === 'available') avail++; else busy++;
+                const top = 100 - mapToPercent(d.current_lat || 12.9716, LAT_RANGE);
+                const left = mapToPercent(d.current_lng || 80.2209, LNG_RANGE);
+                const pin = document.createElement('div');
+                pin.className = "absolute w-3 h-3 rounded-full ring-2 ring-white/20 " + (d.status === 'available' ? 'bg-primary animate-pulse' : 'bg-error');
+                pin.style.top = `${top}%`; pin.style.left = `${left}%`;
+                container.appendChild(pin);
+            });
+            document.getElementById('legend-available').innerText = avail;
+            document.getElementById('legend-busy').innerText = busy;
+        } catch (e) { console.error(e); }
+    }
+
+    function initWS() {
+        const socket = new WebSocket(WS_RIDES_ALL);
+        socket.onmessage = (e) => {
+            const data = JSON.parse(e.data);
+            const container = document.getElementById('rides-feed-container');
+            const item = document.createElement('div');
+            item.className = "p-4 border-b border-white/5 animate-pulse text-xs";
+            const color = data.status === 'matched' ? 'text-primary' : 'text-error';
+            item.innerHTML = `<div class="flex justify-between"><b>${data.status.toUpperCase()}</b><span class="opacity-50">#${data.ride_id.substring(0,6)}</span></div>`;
+            container.prepend(item);
+            if (container.children.length > 20) container.lastChild.remove();
+        };
+        socket.onclose = () => setTimeout(initWS, 5000);
+    }
+
+    updateStats(); setInterval(updateStats, 5000); initWS();
+</script>
+</body></html>

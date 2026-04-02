@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-surface-variant": "#c2c6d8",
+              "inverse-on-surface": "#2e303a",
+              "primary": "#b3c5ff",
+              "tertiary-container": "#ad5d00",
+              "surface-tint": "#b3c5ff",
+              "on-error-container": "#ffdad6",
+              "error-container": "#93000a",
+              "on-tertiary": "#4d2600",
+              "surface-container-lowest": "#0b0e16",
+              "surface-container-high": "#272a33",
+              "secondary": "#b3c5ff",
+              "on-primary-container": "#f8f7ff",
+              "on-primary-fixed": "#001849",
+              "on-primary": "#002b75",
+              "on-primary-fixed-variant": "#003fa4",
+              "error": "#ffb4ab",
+              "tertiary-fixed": "#ffdcc3",
+              "surface": "#10131c",
+              "on-tertiary-fixed": "#2f1500",
+              "surface-variant": "#32343e",
+              "primary-fixed-dim": "#b3c5ff",
+              "on-secondary-container": "#9ab3fd",
+              "on-secondary-fixed": "#001849",
+              "on-error": "#690005",
+              "background": "#10131c",
+              "surface-container-highest": "#32343e",
+              "secondary-container": "#284386",
+              "outline": "#8c90a1",
+              "on-secondary-fixed-variant": "#284386",
+              "surface-bright": "#363943",
+              "secondary-fixed": "#dae1ff",
+              "on-tertiary-fixed-variant": "#6e3900",
+              "outline-variant": "#424656",
+              "tertiary": "#ffb77d",
+              "surface-dim": "#10131c",
+              "primary-container": "#0066ff",
+              "primary-fixed": "#dae1ff",
+              "tertiary-fixed-dim": "#ffb77d",
+              "on-tertiary-container": "#fff6f2",
+              "surface-container": "#1d1f28",
+              "on-secondary": "#0a2c6e",
+              "inverse-surface": "#e1e2ee",
+              "secondary-fixed-dim": "#b3c5ff",
+              "on-background": "#e1e2ee",
+              "surface-container-low": "#191b24",
+              "on-surface": "#e1e2ee",
+              "inverse-primary": "#0054d6"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .kinetic-gradient {
+            background: linear-gradient(135deg, #b3c5ff 0%, #0066ff 100%);
+        }
+        .surge-glow {
+            box-shadow: 0 0 20px rgba(173, 93, 0, 0.2);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body antialiased">
+<!-- Main Content Underlay (Map View) -->
+<div class="fixed inset-0 z-0">
+<img class="w-full h-full object-cover opacity-40" data-alt="Dark stylized urban map of a metropolitan city at night with glowing blue and orange navigation lines and traffic patterns" data-location="San Francisco" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIaGkShcmcKyCjKXwNf14iEvCESjdMi9PHQjYqP5DWSEnojPn-qyK0GJQ10x1lSSu9OY0UUR8JBiq2TWAKoFtBJV-ueqlZg618oUNINH8NYjnEna9twD4bdJSUnB0THsyhVRau1nXjfSjkXNIbWNUQsuMA7x2YD11x4Wt62P4puUli33IfbLaHP5BMnmLIUKaMU5KzANCvngCFI42t2eYyYOm-zbvFy0UsMyKTsWOqZ5-2IGucxtBwyB8dum5ADjK3hCK0duH0uFI"/>
+<!-- Mock Map UI Elements -->
+<div class="absolute top-24 left-6 right-6">
+<div class="bg-surface-container/80 backdrop-blur-xl p-4 rounded-xl flex items-center gap-4">
+<span class="material-symbols-outlined text-primary">my_location</span>
+<div class="flex-1">
+<p class="text-on-surface-variant text-[10px] uppercase tracking-wider font-bold">Current Location</p>
+<p class="font-headline font-semibold">101 Market Street, Financial District</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Top App Bar Shell -->
+<header class="fixed top-0 w-full z-50 bg-[#10131c]/80 backdrop-blur-xl flex justify-between items-center px-6 py-4 w-full">
+<div class="flex items-center gap-4">
+<button class="text-[#b3c5ff] hover:bg-[#32343e] transition-colors active:scale-95 duration-200 p-2 rounded-full">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="font-plus-jakarta-sans font-bold tracking-tight text-xl font-extrabold text-[#b3c5ff] tracking-widest uppercase">SwiftRide</h1>
+</div>
+<div class="w-10 h-10 rounded-full bg-surface-variant flex items-center justify-center overflow-hidden border border-outline-variant/20">
+<img class="w-full h-full object-cover" data-alt="Close-up portrait of a professional male user in a dark suit with soft studio lighting against a dark background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCeFPSj7BhpOaBLF90j-FzWCu1MlR4VCQu1ewQs5Z0Xr3hN7TEWCu2ngwuLRCtntD9l-ZqFGtcSaaA1BK0-uI96rY_omTjjFz7Zq1pw9nMxA1p9XIhIcG8-kI8K1cV6X5ZTtVfvQZpaYexlz6lChVVUqein7jWx3SqU4kre7B6Yd0n9xGCn_T83v2R_Y53I7cb5rUBq_CW8ZbbKcSEaqcGcoBzeNJQY07n5vPYzc7nSthJ5OwV6ZcSCOOvZSlX6OqKCkuJrssobvQY"/>
+</div>
+</header>
+<!-- Surge Pricing Modal Overlay -->
+<div class="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-surface-container-lowest/70 backdrop-blur-sm">
+<!-- The Modal Canvas -->
+<div class="w-full max-w-md bg-surface-container-low rounded-[2rem] overflow-hidden shadow-[0_32px_64px_rgba(0,0,0,0.5)] flex flex-col border border-outline-variant/10">
+<!-- Hero Header with Asymmetry -->
+<div class="relative p-8 pt-10">
+<!-- Surge Pulse Accent -->
+<div class="absolute top-0 right-0 p-6">
+<div class="bg-tertiary-container/20 text-tertiary px-4 py-1.5 rounded-full flex items-center gap-2 surge-glow">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">bolt</span>
+<span class="font-headline font-bold text-xs uppercase tracking-widest">Surge</span>
+</div>
+</div>
+<h2 class="font-headline font-extrabold text-3xl text-on-surface leading-tight mb-3">
+                    High Demand <br/>
+<span class="text-tertiary">in Your Area</span>
+</h2>
+<p class="text-on-surface-variant font-medium leading-relaxed max-w-[80%]">
+                    2.1x fare applies due to limited vehicle availability at this time.
+                </p>
+</div>
+<!-- Visualization: Heatmap Preview -->
+<div class="px-8 mb-8">
+<div class="relative h-48 w-full rounded-2xl overflow-hidden bg-surface-container-highest">
+<img class="w-full h-full object-cover opacity-60 grayscale-[0.5] contrast-125" data-alt="Abstract heat map visualization overlay on a dark city grid with intense orange and amber glowing hotspots" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdv22UZDGwCi8srSa4JiFrnsxhATHtobj0GSOArf18dQzgGR-7Ryau5QykZFE30iKS5dRqy5No7ucJfoG2lvp_sq6oWACUiENUe2RSlB7B0Nt-FgreIHtdHo0Fe6nk5PVXpui425cc8MbCPv1fId5dbl3Ku2aVMFH1RT7ZikeDVXV9rHX6B1e4GBvXM3qRBQJj75tTUe3FLmuJey_cbTGFibwBf_aMmXJ6ogQwvs2gdNfIGp_9gruzx5YwqUv_QAJDc4x6JkMhqrQ"/>
+<!-- Overlay Radar Effect -->
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low via-transparent to-transparent"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="relative">
+<div class="absolute -inset-8 bg-tertiary/10 rounded-full animate-pulse"></div>
+<div class="bg-tertiary text-on-tertiary w-12 h-12 rounded-full flex items-center justify-center shadow-lg shadow-tertiary/30">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">trending_up</span>
+</div>
+</div>
+</div>
+<!-- HUD Metadata -->
+<div class="absolute bottom-4 left-4 flex gap-2">
+<div class="bg-surface-container/90 backdrop-blur-md px-3 py-1 rounded-lg">
+<p class="text-[10px] text-outline uppercase font-bold tracking-tighter">Wait Time</p>
+<p class="text-xs font-headline font-bold">12-15 min</p>
+</div>
+<div class="bg-surface-container/90 backdrop-blur-md px-3 py-1 rounded-lg">
+<p class="text-[10px] text-outline uppercase font-bold tracking-tighter">Drivers Near</p>
+<p class="text-xs font-headline font-bold text-tertiary">3</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Action Block -->
+<div class="p-8 pt-0 flex flex-col gap-3">
+<button class="kinetic-gradient w-full py-5 rounded-full font-headline font-extrabold text-on-primary-container text-lg shadow-xl shadow-primary-container/20 hover:opacity-90 active:scale-95 transition-all duration-200 flex items-center justify-center gap-3">
+                    Accept &amp; Request
+                    <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+<button class="w-full py-4 rounded-xl border border-outline-variant/20 text-on-surface-variant font-headline font-bold hover:bg-surface-container-highest transition-colors active:scale-[0.98]">
+                    Wait for lower price
+                </button>
+</div>
+<!-- Footer Meta -->
+<div class="bg-surface-container-high/50 p-4 flex justify-center items-center gap-2">
+<span class="material-symbols-outlined text-outline text-sm">info</span>
+<span class="text-[11px] text-outline font-medium tracking-wide">Prices adjust in real-time based on local demand.</span>
+</div>
+</div>
+</div>
+<!-- Bottom Navigation Bar Shell -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-[24px] bg-[#10131c]/90 backdrop-blur-2xl shadow-[0_-8px_32px_rgba(0,0,0,0.4)] flex justify-around items-center px-4 pb-6 pt-3">
+<!-- Active Item: Ride -->
+<a class="flex flex-col items-center justify-center text-[#b3c5ff] bg-gradient-to-br from-[#b3c5ff]/20 to-[#0066ff]/20 rounded-full px-4 py-1 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">local_taxi</span>
+<span class="font-manrope text-[10px] font-semibold tracking-wide mt-0.5">Ride</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 hover:text-[#b3c5ff] active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-manrope text-[10px] font-semibold tracking-wide mt-0.5">Activity</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 hover:text-[#b3c5ff] active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+<span class="font-manrope text-[10px] font-semibold tracking-wide mt-0.5">Wallet</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 hover:text-[#b3c5ff] active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-manrope text-[10px] font-semibold tracking-wide mt-0.5">Account</span>
+</a>
+</nav>
+</body></html>

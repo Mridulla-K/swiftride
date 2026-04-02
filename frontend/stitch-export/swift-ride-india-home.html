@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SwiftRide - Premium Mobility</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "inverse-primary": "#0054d6",
+              "on-background": "#e1e2ee",
+              "surface-container": "#1d1f28",
+              "primary-fixed": "#dae1ff",
+              "tertiary-container": "#ad5d00",
+              "surface-container-lowest": "#0b0e16",
+              "surface": "#10131c",
+              "on-primary": "#002b75",
+              "on-primary-fixed-variant": "#003fa4",
+              "on-surface-variant": "#c2c6d8",
+              "inverse-on-surface": "#2e303a",
+              "on-secondary": "#0a2c6e",
+              "tertiary-fixed": "#ffdcc3",
+              "error-container": "#93000a",
+              "surface-container-high": "#272a33",
+              "on-secondary-fixed-variant": "#284386",
+              "on-secondary-fixed": "#001849",
+              "inverse-surface": "#e1e2ee",
+              "surface-dim": "#10131c",
+              "on-tertiary": "#4d2600",
+              "outline-variant": "#424656",
+              "surface-tint": "#b3c5ff",
+              "on-secondary-container": "#9ab3fd",
+              "secondary-fixed-dim": "#b3c5ff",
+              "on-surface": "#e1e2ee",
+              "background": "#10131c",
+              "on-primary-container": "#f8f7ff",
+              "error": "#ffb4ab",
+              "on-tertiary-fixed": "#2f1500",
+              "surface-bright": "#363943",
+              "secondary-container": "#284386",
+              "secondary": "#b3c5ff",
+              "on-tertiary-container": "#fff6f2",
+              "outline": "#8c90a1",
+              "tertiary-fixed-dim": "#ffb77d",
+              "surface-container-highest": "#32343e",
+              "primary-container": "#0066ff",
+              "on-error-container": "#ffdad6",
+              "tertiary": "#ffb77d",
+              "on-error": "#690005",
+              "on-primary-fixed": "#001849",
+              "surface-variant": "#32343e",
+              "primary": "#b3c5ff",
+              "secondary-fixed": "#dae1ff",
+              "primary-fixed-dim": "#b3c5ff",
+              "on-tertiary-fixed-variant": "#6e3900",
+              "surface-container-low": "#191b24"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        body { background-color: #10131c; }
+        .glass-sheet {
+            background: rgba(29, 31, 40, 0.8);
+            backdrop-filter: blur(24px);
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="font-body text-on-surface overflow-hidden">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#10131c] dark:bg-[#10131c] flex justify-between items-center px-6 py-4 w-full">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-container">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="Professional portrait of a young man with a friendly smile, sharp lighting against a dark studio background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWwHk4sz0JysmSdXkfR6sKv-Yeq9Ff5j1Po2qYqUzqHushiI5hE_id36I9XtIk6t1Ot7IUM7njenmFgkL4zxs8RkXVVGXS_7hkRUibWSwYwaPTay4Cbff9kYp4Rl-KqlpCpOObmbOotxLG_z7LkLEivm91nXOHG38tJLW2nS_WJKe-ArgUFULQWq8rKtfF99Gcrr669_D8xEtN_MZgI3kE-S6w6QTVdl85XJndPXNz1D3DDEFQxwne-MvkCVlN5bvgRAbo43MMezU"/>
+</div>
+<h1 class="font-['Plus_Jakarta_Sans'] font-bold text-lg text-[#b3c5ff] dark:text-[#b3c5ff]">John Doe • ₹1,250</h1>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-surface-container-high hover:bg-[#1d1f28] transition-colors active:scale-95 duration-150">
+<span class="material-symbols-outlined text-[#b3c5ff]" data-icon="account_balance_wallet">account_balance_wallet</span>
+</button>
+</header>
+<!-- Map Canvas (60% Height) -->
+<main class="relative h-[530px] w-full mt-16 overflow-hidden">
+<div class="absolute inset-0 bg-surface-container-lowest">
+<img class="w-full h-full object-cover opacity-60" data-alt="Dark themed navigation map view of a city grid with luminous blue and purple street lines and neon accents" data-location="Gurgaon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjStVv_nju4yilfITU2thvYFvTwfkrSErBSQf7vJY1I_t2RxFqQ5zBaiJEVFifiE_8GT8jSYTX3sm0z92QcfOiHcQ_Teee5n7tsQe1q9LSEVFMBDBcQS6s063f6qabxxic0_soXEORqZKkR4UXgeTMjU4iTn9MkE45sZlwedSjLINl_Hgzm9194-pkZE9rNDZsJH50GG5HJ-g7qlMaz8nPLMrRrMJB9seEWnqRLkZ0HqiQt-xc9qd7Diczt0dHhE6XKlOp4uVbhvg"/>
+</div>
+<!-- Kinetic Floating UI Elements -->
+<div class="absolute top-6 left-6 right-6 flex justify-between items-start">
+<div class="bg-surface-container/90 backdrop-blur-md px-4 py-2 rounded-full flex items-center gap-2 border border-outline-variant/15">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="text-xs font-bold font-headline uppercase tracking-widest text-primary">Finding Drivers</span>
+</div>
+</div>
+<!-- Destination HUD (Input Fields Layered Over Map) -->
+<div class="absolute bottom-12 left-6 right-6 space-y-3">
+<div class="bg-surface-container-high/90 backdrop-blur-xl p-4 rounded-2xl border border-outline-variant/15 shadow-2xl">
+<div class="flex items-center gap-4 group">
+<span class="material-symbols-outlined text-primary" data-icon="trip_origin">trip_origin</span>
+<div class="flex-1 border-b border-outline-variant/20 pb-2">
+<p class="text-[10px] uppercase tracking-tighter text-outline font-bold">Pickup Location</p>
+<p class="text-sm font-semibold">Cyber City, Building 10, Gurgaon</p>
+</div>
+</div>
+<div class="flex items-center gap-4 mt-4">
+<span class="material-symbols-outlined text-tertiary" data-icon="location_on" style="font-variation-settings: 'FILL' 1;">location_on</span>
+<div class="flex-1">
+<p class="text-[10px] uppercase tracking-tighter text-outline font-bold">Destination</p>
+<input class="w-full bg-transparent border-none p-0 focus:ring-0 text-sm font-semibold placeholder:text-surface-container-highest" placeholder="Where to?" type="text"/>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Sheet (Dynamic Controls) -->
+<section class="fixed bottom-0 left-0 right-0 h-[353px] glass-sheet rounded-t-[32px] px-6 pt-8 pb-24 z-40 border-t border-outline-variant/10 shadow-[0_-24px_48px_rgba(0,0,0,0.4)]">
+<div class="w-12 h-1.5 bg-outline-variant/30 rounded-full mx-auto mb-8"></div>
+<div class="flex flex-col h-full justify-between">
+<!-- Ride Details & Surge -->
+<div class="space-y-6">
+<div class="flex justify-between items-end">
+<div class="space-y-1">
+<h2 class="font-headline text-3xl font-extrabold tracking-tight">Swift Luxury</h2>
+<div class="flex gap-2 items-center">
+<span class="bg-primary-container/20 text-primary px-3 py-1 rounded-full text-xs font-bold">4 min ETA</span>
+<div class="bg-tertiary-container text-on-tertiary-container px-3 py-1 rounded-full text-xs font-black flex items-center gap-1 shadow-[0_0_12px_rgba(173,93,0,0.3)]">
+<span class="material-symbols-outlined text-[14px]" data-icon="bolt" style="font-variation-settings: 'FILL' 1;">bolt</span>
+                                1.8x Surge
+                            </div>
+</div>
+</div>
+<div class="text-right">
+<p class="text-4xl font-headline font-bold text-primary">₹340.50</p>
+<p class="text-[10px] text-outline uppercase font-bold tracking-widest">Estimated Fare</p>
+</div>
+</div>
+<div class="flex gap-4 overflow-x-auto pb-2 -mx-2 px-2 no-scrollbar">
+<!-- SwiftAuto -->
+<div class="min-w-[140px] bg-surface-container-low border border-outline-variant/20 p-4 rounded-2xl flex flex-col gap-2 opacity-60">
+<span class="material-symbols-outlined text-outline text-3xl" data-icon="rickshaw">rickshaw</span>
+<span class="text-sm font-bold">SwiftAuto</span>
+</div>
+<!-- SwiftMini -->
+<div class="min-w-[140px] bg-surface-container-low border border-outline-variant/20 p-4 rounded-2xl flex flex-col gap-2 opacity-60">
+<span class="material-symbols-outlined text-outline text-3xl" data-icon="minor_crash">minor_crash</span>
+<span class="text-sm font-bold">SwiftMini</span>
+</div>
+<!-- SwiftSedan -->
+<div class="min-w-[140px] bg-surface-container-low border border-outline-variant/20 p-4 rounded-2xl flex flex-col gap-2 opacity-60">
+<span class="material-symbols-outlined text-outline text-3xl" data-icon="directions_car">directions_car</span>
+<span class="text-sm font-bold">SwiftSedan</span>
+</div>
+<!-- SwiftLuxury (Selected) -->
+<div class="min-w-[140px] bg-surface-container-high border-2 border-primary-container p-4 rounded-2xl flex flex-col gap-2 relative overflow-hidden">
+<div class="absolute top-0 right-0 bg-primary-container text-white px-2 py-0.5 rounded-bl-lg text-[8px] font-bold">PREMIUM</div>
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="luxury_cars">luxury_cars</span>
+<span class="text-sm font-bold">SwiftLuxury</span>
+</div>
+</div>
+</div>
+<!-- CTA -->
+<button class="w-full bg-gradient-to-br from-primary to-primary-container text-on-primary-container font-headline font-extrabold py-5 rounded-full text-lg shadow-xl active:scale-[0.98] transition-transform flex items-center justify-center gap-3">
+                Request SwiftRide
+                <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</section>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-[24px] bg-[#10131c]/80 backdrop-blur-xl dark:bg-[#10131c]/80 shadow-[0_-16px_32px_rgba(0,0,0,0.06)] flex justify-around items-center px-4 pb-8 pt-4">
+<a class="flex flex-col items-center justify-center bg-[#1d1f28] text-[#b3c5ff] rounded-full px-4 py-1 active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="directions_car">directions_car</span>
+<span class="font-['Manrope'] text-[10px] font-semibold uppercase tracking-wider">Ride</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 hover:text-[#b3c5ff] active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="font-['Manrope'] text-[10px] font-semibold uppercase tracking-wider">Activity</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 hover:text-[#b3c5ff] active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="font-['Manrope'] text-[10px] font-semibold uppercase tracking-wider">Wallet</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 hover:text-[#b3c5ff] active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-['Manrope'] text-[10px] font-semibold uppercase tracking-wider">Profile</span>
+</a>
+</nav>
+</body></html>
