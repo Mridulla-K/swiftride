@@ -4,54 +4,7 @@ SwiftRide is a high-performance ride-hailing backend architecture built with Fas
 
 ---
 
-## 🏗️ Architecture
 
-```mermaid
-graph TD
-    subgraph "Clients"
-        RiderApp[Rider Mobile/Web]
-        DriverApp[Driver Mobile/Web]
-    end
-
-    subgraph "Infrastructure"
-        PostgreSQL[(PostgreSQL)]
-        Redis[(Redis)]
-        Kafka{Kafka}
-    end
-
-    subgraph "Services"
-        US[User Service]
-        DS[Driver Service]
-        MS[Matching Service]
-        RS[Ride Service]
-        PS[Pricing Service]
-    end
-
-    %% Interactions
-    RiderApp --> US
-    RiderApp --> RS
-    DriverApp --> DS
-    
-    RS --> Kafka: "ride.requested"
-    DS --> Kafka: "driver.location"
-    DS --> Redis: "geo:active_drivers"
-    
-    Kafka --> MS: "ride.requested + driver.location"
-    MS --> Redis: "GEORADIUS search"
-    MS --> Kafka: "ride.matched"
-    
-    Kafka --> RS: "ride.matched"
-    Kafka --> DS: "ride.matched"
-    
-    RS --> PS: "fare_request"
-    
-    %% Persistence
-    US --> PostgreSQL
-    DS --> PostgreSQL
-    RS --> PostgreSQL
-    MS -.-> Redis
-    PS -.-> Redis
-```
 
 ---
 
